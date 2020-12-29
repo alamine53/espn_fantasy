@@ -15,62 +15,67 @@ from bs4 import BeautifulSoup
 import pandas as pd
 pywebcopy.config['bypass_robots'] = True
 from datetime import datetime
+from os import path
 
-def league_standings(league_id = 2098926112, save_folder = 'data', save_file = True):
+if __name__ == "__main__":
 
-	# set dataset name as today's date
-	now = datetime.today().strftime('%Y-%m-%d')
-	dataset_name = now + ".csv"
+	# params
+	league_id = 2098926112
+	save_folder = '../data'
+	today = datetime.today().strftime('%Y-%m-%d')
+	dataset_name = today + ".csv"
 	url = 'https://fantasy.espn.com/basketball/league/standings?leagueId=%s' %league_id
+	
+	if path.exists(os.path.join(save_folder, today + ".csv")):
 
-	# open chrome browser
-	driver = webdriver.Chrome()
-	driver.get(url);
-	time.sleep(5)
+		print("today's standings have already been scraped.")
 
-	# # accept cookies
-	driver.implicitly_wait(10)
-	driver.find_element_by_xpath("//button[contains(@id, 'accept-btn')]").click()
+	else:
 
-	## collect tables
-	time.sleep(5)
-	page = driver.page_source
-	soup = BeautifulSoup(page, 'html.parser')
-	tables = soup.find_all("table")
+		# open chrome browser
+		driver = webdriver.Chrome()
+		driver.get(url);
+		time.sleep(5)
+		print('Opening league page')
 
-	# scrape data
-	# standings table is actually 3 separate tables. 
-	# table 3 contains rank and team names, and table 4 contains the data
-	# I scrape each table separately then join together. 
-	time.sleep(5)
-	table = tables[4]
-	tab_data = [[cell.text for cell in row.find_all(["th","td"])]
-	                        for row in table.find_all("tr")][2:]
+		# # accept cookies
+		driver.implicitly_wait(10)
+		driver.find_element_by_xpath("//button[contains(@id, 'accept-btn')]").click()
+		print('Accepting cookies')
 
-	headers = [[cell.text for cell in row.find_all(["th","td"])]
-	                        for row in table.find_all("tr")][1]
+		## collect tables
+		time.sleep(5)
+		page = driver.page_source
+		soup = BeautifulSoup(page, 'html.parser')
+		tables = soup.find_all("table")
+		print('Collecting relevant tables')
 
-	# scrape team names & ranks
-	table = tables[3]
-	tab_rownames = [[cell.text for cell in row.find_all(["th","td"])]
-	                        for row in table.find_all("tr")][2:]
+		# scrape data
+		# standings table is actually 3 separate tables. 
+		# table 3 contains rank and team names, and table 4 contains the data
+		# I scrape each table separately then join together. 
+		time.sleep(5)
+		table = tables[4]
+		tab_data = [[cell.text for cell in row.find_all(["th","td"])]
+		                        for row in table.find_all("tr")][2:]
 
-	# build dataframe
-	df_data = pd.DataFrame(tab_data, columns = headers)
-	df_names = pd.DataFrame(tab_rownames, columns = ['Rk', 'Team'])
-	df = df_names.join(df_data)
+		headers = [[cell.text for cell in row.find_all(["th","td"])]
+		                        for row in table.find_all("tr")][1]
 
-	# add date column
-	df['date'] = now
+		# scrape team names & ranks
+		table = tables[3]
+		tab_rownames = [[cell.text for cell in row.find_all(["th","td"])]
+		                        for row in table.find_all("tr")][2:]
 
-	# export to csv
-	# print(df)
-	if save_file == True:
+		# build dataframe
+		df_data = pd.DataFrame(tab_data, columns = headers)
+		df_names = pd.DataFrame(tab_rownames, columns = ['Rk', 'Team'])
+		df = df_names.join(df_data)
+
+		# add date column
+		df['date'] = today
+
+		# export to csv
 		df.to_csv(os.path.join(save_folder, dataset_name), index = False)
 		print("Dataset has been successfully exported to 'data' as ", dataset_name)
 
-	return df 
-
-
-if __name__ == '__main__':
-	league_standings()

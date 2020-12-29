@@ -146,3 +146,4 @@ cython_debug/
 
 # R scripts
 *.R
+*.Rhistory
