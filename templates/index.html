@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Ya 3ayni Standings</title>
+{% endblock %}
+
+{% block body %}
+<h1>Ya 3ayni Standings</h1>
+
+<p>A website that displays standings for ESPN Fantasy Basketball leagues in line chart format. The
+    code works for (public) leagues that use Rotisserie format. Under the hood, this code scrapes the standings table and updates the charts on a daily basis. 
+
+The source code for this project is available at this
+    <a href="https://github.com/alamine53/espn_fantasy" target="_blank">GitHub repository</a>.
+    <br/><br/>
+    For feedback or comments:
+    <a href="mailto:ramzyelamine@gmail.com">ramzyelamine@gmail.com</a>. 
+</p>
+
+<form action='/tools' method= 'POST'>
+    <strong> Enter your name (e.g. Ramzy): </strong>
+    <input type='text' name='name'>
+  <br><br>
+  <input type='submit' value='Submit'>
+</form>
+
+</body>
+</html>
+{% endblock %}

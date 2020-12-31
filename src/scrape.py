@@ -61,21 +61,38 @@ if __name__ == "__main__":
 
 		headers = [[cell.text for cell in row.find_all(["th","td"])]
 		                        for row in table.find_all("tr")][1]
+		df_data = pd.DataFrame(tab_data, columns = headers)
 
 		# scrape team names & ranks
 		table = tables[3]
 		tab_rownames = [[cell.text for cell in row.find_all(["th","td"])]
 		                        for row in table.find_all("tr")][2:]
+		df_names = pd.DataFrame(tab_rownames, columns = ['Rk', 'Team'])
+
+		# scrape games played
+		table = tables[5]
+		tab_data = [[cell.text for cell in row.find_all(["th","td"])]
+		                        for row in table.find_all("tr")][2:]
+
+		headers = [[cell.text for cell in row.find_all(["th","td"])]
+		                        for row in table.find_all("tr")][1]
+
+		df_gp = pd.DataFrame(tab_data, columns = headers)
 
 		# build dataframe
-		df_data = pd.DataFrame(tab_data, columns = headers)
-		df_names = pd.DataFrame(tab_rownames, columns = ['Rk', 'Team'])
 		df = df_names.join(df_data)
-
+		df = df.join(df_gp)
+		print(df)
+		
 		# add date column
 		df['date'] = today
 
 		# export to csv
 		df.to_csv(os.path.join(save_folder, dataset_name), index = False)
+		
+		# close browser
+		driver.quit()
+		print('Quitting browser')
+
 		print("Dataset has been successfully exported to 'data' as ", dataset_name)
 

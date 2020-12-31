@@ -1,0 +1,28 @@
+ @font-face {
+  font-family: SFMono-Regular;
+  font-style: normal;
+  src: url(../font/SFMono/SFMono-Regular.woff2?#iefix) format('woff2'), url(../font/SFMono/SFMono-Regular.woff) format('woff'), url(../font/SFMono/SFMono-Regular.ttf) format('truetype');
+}
+
+  @font-face{
+  font-family: 'JetBrainsMono';
+  src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Regular.woff') format('woff'),
+    url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: 100;
+  font-style: bold;
+  }
+
+
+  h1 {
+  font-family: 'JetBrainsMono';
+    font-weight: 600;
+    line-height: 0px;
+}
+
+ body {
+  font-family: 'Helvetica';
+    font-weight: 100;
+    line-height: 0px;
+/*    color: $light-font-color
+*/}
