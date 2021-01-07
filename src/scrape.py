@@ -40,8 +40,12 @@ if __name__ == "__main__":
 
 		# # accept cookies
 		driver.implicitly_wait(10)
-		driver.find_element_by_xpath("//button[contains(@id, 'accept-btn')]").click()
-		print('Accepting cookies')
+		try:
+			driver.find_element_by_xpath("//button[contains(@id, 'accept-btn')]").click()
+		except:
+			print('Cookies not supported!')
+		else:
+			print('Accepting cookies')
 
 		## collect tables
 		time.sleep(5)
