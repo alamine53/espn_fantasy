@@ -16,13 +16,24 @@
 
   h1 {
   font-family: 'JetBrainsMono';
-    font-weight: 600;
-    line-height: 0px;
+    font-weight: 800;
+    line-height: 3px;
 }
 
  body {
   font-family: 'Helvetica';
+    font-size: 12px;
     font-weight: 100;
-    line-height: 0px;
+    line-height: 10px;
+    display: block; 
+/*    color: $light-font-color
+*/}
+ 
+ p {
+  font-family: 'Helvetica';
+    font-size: 12px;
+    font-weight: 100;
+    line-height: 10px;
+    display: block; 
 /*    color: $light-font-color
 */}
